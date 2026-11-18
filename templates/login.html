@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block title %}Sign in · CloudVault{% endblock %}{% block content %}
+<div class="auth"><div class="auth-card"><div class="logo">☁</div><h1>Welcome back</h1><p class="muted">Sign in to access your files securely.</p>
+<form method="post"><label>Username</label><input name="username" required autofocus><label>Password</label><input type="password" name="password" required>
+<button class="primary full">Sign in</button></form><p class="muted center">New here? <a href="{{ url_for('register') }}">Create an account</a></p>
+<div class="demo">Demo: admin / Admin@123<br>Demo user: demo / User@123</div></div></div>{% endblock %}

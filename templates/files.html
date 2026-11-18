@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block title %}My Files{% endblock %}{% block content %}
+<div class="page-heading"><div><p class="eyebrow">FILE MANAGER</p><h1>My Files</h1><p class="muted">Upload and organize your documents.</p></div></div>
+<div class="two-col"><section class="panel"><h2>Upload a file</h2><form method="post" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+<input type="hidden" name="folder_id" value="{{ folder.id if folder else '' }}"><input type="file" name="file" required><button class="primary">Upload file</button></form>
+<p class="hint">Maximum upload size: 100 MB. Storage quota is checked before saving.</p></section>
+<section class="panel"><h2>Create a folder</h2><form method="post" action="{{ url_for('create_folder') }}"><input name="name" placeholder="Folder name" required>
+<input type="hidden" name="parent_id" value="{{ folder.id if folder else '' }}"><button class="secondary">＋ Create folder</button></form></section></div>
+<section class="panel"><div class="panel-head"><div><h2>{% if folder %}📁 {{ folder.name }}{% else %}All files{% endif %}</h2>
+{% if folder %}<a href="{{ url_for('files') }}">← Root folder</a>{% endif %}</div></div>
+{% if folders %}<h3>Folders</h3><div class="folder-grid">{% for f in folders %}<a class="folder" href="{{ url_for('files',folder_id=f.id) }}">📁 <b>{{ f.name }}</b><small>Open folder →</small></a>{% endfor %}</div>{% endif %}
+<h3>Files</h3>{% if files %}<div class="table-wrap"><table><tr><th>Name</th><th>Size</th><th>Version</th><th>Updated</th><th>Actions</th></tr>
+{% for f in files %}<tr><td>📄 {{ f.name }}</td><td>{{ (f.size/1024)|round(1) }} KB</td><td>v{{ f.version }}</td><td>{{ f.updated_at }}</td><td class="actions"><a href="{{ url_for('preview',file_id=f.id) }}" target="_blank">Preview</a><a href="{{ url_for('download',file_id=f.id) }}">Download</a><a href="{{ url_for('share',file_id=f.id) }}">Share</a>
+<form method="post" action="{{ url_for('delete_file',file_id=f.id) }}" onsubmit="return confirm('Delete this file?')"><button class="link danger">Delete</button></form></td></tr>{% endfor %}</table></div>{% else %}<div class="empty">This folder has no files yet.</div>{% endif %}</section>{% endblock %}

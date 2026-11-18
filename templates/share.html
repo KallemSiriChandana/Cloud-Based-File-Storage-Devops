@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block title %}Share file{% endblock %}{% block content %}
+<div class="page-heading"><div><p class="eyebrow">COLLABORATION</p><h1>Share “{{ file.name }}”</h1><p class="muted">Choose a registered user and permission.</p></div></div>
+<section class="panel narrow"><form method="post"><label>Share with</label><select name="user_id" required><option value="">Choose a user</option>{% for u in users %}<option value="{{ u.id }}">{{ u.username }}</option>{% endfor %}</select>
+<label>Permission</label><select name="permission"><option value="view">View</option><option value="edit">Edit</option></select><button class="primary">Share file</button></form>
+<h2 class="mt">People with access</h2>{% if shares %}{% for s in shares %}<p class="share-row">{{ s.username }} <span class="tag">{{ s.permission }}</span></p>{% endfor %}{% else %}<p class="muted">Not shared yet.</p>{% endif %}
+<a href="{{ url_for('files') }}">← Back to files</a></section>{% endblock %}

@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block title %}User management{% endblock %}{% block content %}
+<div class="page-heading"><div><p class="eyebrow">ADMINISTRATION</p><h1>User management</h1><p class="muted">Review accounts and manage storage limits.</p></div></div>
+<section class="panel"><div class="table-wrap"><table><tr><th>Username</th><th>Role</th><th>Created</th><th>Quota (MB)</th><th>Update quota</th></tr>
+{% for u in users %}<tr><td>{{ u.username }}</td><td>{{ u.role }}</td><td>{{ u.created_at }}</td><td>{{ u.quota_mb }}</td><td><form class="inline-form" method="post" action="{{ url_for('update_quota',user_id=u.id) }}"><input type="number" name="quota_mb" min="1" max="100000" value="{{ u.quota_mb }}" required><button class="secondary">Save</button></form></td></tr>{% endfor %}</table></div></section>{% endblock %}

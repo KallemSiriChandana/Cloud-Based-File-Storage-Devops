@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block title %}Dashboard{% endblock %}{% block content %}
+<div class="page-heading"><div><p class="eyebrow">OVERVIEW</p><h1>Your storage dashboard</h1><p class="muted">Manage files, folders and shared documents in one place.</p></div><a class="primary button-link" href="{{ url_for('files') }}">＋ Manage files</a></div>
+<div class="stats"><div class="stat"><span>My files</span><strong>{{ own_files }}</strong><small>Uploaded documents</small></div><div class="stat"><span>Folders</span><strong>{{ folders }}</strong><small>Your organization</small></div><div class="stat"><span>Shared with me</span><strong>{{ shared }}</strong><small>Files received</small></div></div>
+<section class="panel"><div class="panel-head"><div><h2>Storage utilization</h2><p class="muted">Your used space compared with your assigned limit.</p></div><strong>{{ "%.1f"|format(used/1048576) }} MB / {{ "%.0f"|format(quota/1048576) }} MB</strong></div>
+<div class="progress"><span style="width:{{ [100, (used / quota * 100) if quota else 0]|min }}%"></span></div></section>
+<section class="panel"><div class="panel-head"><h2>Recently updated</h2><a href="{{ url_for('files') }}">View all →</a></div>
+{% if recent %}<div class="table-wrap"><table><tr><th>File</th><th>Owner</th><th>Size</th><th>Last updated</th><th></th></tr>
+{% for f in recent %}<tr><td>📄 {{ f.name }}</td><td>{{ f.owner }}</td><td>{{ (f.size/1024)|round(1) }} KB</td><td>{{ f.updated_at }}</td><td><a href="{{ url_for('download',file_id=f.id) }}">Download</a></td></tr>{% endfor %}</table></div>{% else %}<div class="empty">No files yet. Upload your first document from My Files.</div>{% endif %}</section>{% endblock %}

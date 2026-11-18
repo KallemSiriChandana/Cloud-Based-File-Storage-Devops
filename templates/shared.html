@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block title %}Shared files{% endblock %}{% block content %}
+<div class="page-heading"><div><p class="eyebrow">COLLABORATION</p><h1>Shared with me</h1><p class="muted">Files other users have shared with your account.</p></div></div>
+<section class="panel">{% if files %}<div class="table-wrap"><table><tr><th>File</th><th>Owner</th><th>Permission</th><th>Shared on</th><th></th></tr>
+{% for f in files %}<tr><td>📄 {{ f.name }}</td><td>{{ f.owner }}</td><td><span class="tag">{{ f.permission }}</span></td><td>{{ f.created_at }}</td><td><a href="{{ url_for('preview',file_id=f.id) }}" target="_blank">Preview</a> · <a href="{{ url_for('download',file_id=f.id) }}">Download</a></td></tr>{% endfor %}</table></div>{% else %}<div class="empty">No files have been shared with you.</div>{% endif %}</section>{% endblock %}

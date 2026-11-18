@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}CloudVault{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+{% if logged_user %}
+<header class="topbar"><a class="brand" href="{{ url_for('dashboard') }}">☁ CloudVault</a>
+<nav><a href="{{ url_for('dashboard') }}">Dashboard</a><a href="{{ url_for('files') }}">My Files</a>
+<a href="{{ url_for('shared') }}">Shared with me</a><a href="{{ url_for('reports') }}">Reports</a>
+{% if logged_user.role == 'admin' %}<a href="{{ url_for('admin_users') }}">Users</a>{% endif %}
+</nav><div class="profile">{{ logged_user.username }} · {{ logged_user.role }} <a href="{{ url_for('logout') }}">Logout</a></div></header>
+{% endif %}
+<main class="container">
+{% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}{% for category,message in messages %}
+<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endif %}{% endwith %}
+{% block content %}{% endblock %}
+</main>
+<footer>CloudVault · Cloud-Based File Storage and Sharing Platform</footer>
+</body></html>
